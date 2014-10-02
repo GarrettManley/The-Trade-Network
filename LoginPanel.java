@@ -70,6 +70,7 @@ public class LoginPanel extends JPanel implements StringConstants {
 	/*event handling for this panel done here*/
 	class LoginPanelListener implements ActionListener{
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			//to switch pages, get the cardlayout from main panel then 
 			//call the show method(container, keystring)
@@ -77,17 +78,29 @@ public class LoginPanel extends JPanel implements StringConstants {
 				CardLayout cl = (CardLayout)(mainpanel.getLayout());
 				cl.show(mainpanel, CREATENEW);
 			}
-			else if(e.getSource() == logIn)
-			{
+			else if(e.getSource() == logIn){
 				String uname = textField.getText();
 				String pass = new String(passwordField.getPassword());
-				CardLayout cl = (CardLayout)(mainpanel.getLayout());
-				cl.show(mainpanel, CONN);
 				
-				textField.setText("");
-				passwordField.setText("");
+				
+				try {
+					//try to connect to db
+					//db.connectToDB();    //this one uses a con string that already has uname and pass in it
+					db.connectToDB(uname,pass);
+					
+					textField.setText("");
+					passwordField.setText("");
+					
+					CardLayout cl = (CardLayout)(mainpanel.getLayout());
+					cl.show(mainpanel, CONN);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(mainpanel, "Error Logging in\n");
+					e1.printStackTrace();
 				}
-								
+				
+			}
+			
 		}
 		
 	}
