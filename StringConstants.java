@@ -3,6 +3,8 @@ public interface StringConstants {
 	final static String CREATENEW = "Create New User";
 	final static String CONN = "Connection Success Display"; 
 	final static String ADDITEM = "Add Item";
+	final static String REMOVEITEM = "Remove Item";
+	
 	final static String[] StatesList = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
 		"Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
 		"Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massacusetts", "Michigan", "Minnesota", "Mississippi",
