@@ -13,7 +13,8 @@ public class MainFrame extends JFrame implements StringConstants {
 	private JPanel newuserpage;
 	private JPanel connsuccess;
 	private JPanel additempage;
-
+	private JPanel removeitempage;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -48,6 +49,7 @@ public class MainFrame extends JFrame implements StringConstants {
 		newuserpage = new NewUserPanel(mainpanel, db);
 		connsuccess = new ConnectionSuccess(mainpanel);
 		additempage = new AddItemPanel(mainpanel, db);
+		removeitempage = new RemoveItemPanel(mainpanel, db);
 
 		// add the panels to the mainpanel, make sure to create a new string
 		// constant for each one
@@ -55,7 +57,8 @@ public class MainFrame extends JFrame implements StringConstants {
 		mainpanel.add(newuserpage, CREATENEW);
 		mainpanel.add(connsuccess, CONN);
 		mainpanel.add(additempage, ADDITEM);
-
+		mainpanel.add(removeitempage, REMOVEITEM);
+		
 		add(mainpanel);
 
 	}
