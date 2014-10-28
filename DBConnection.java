@@ -26,6 +26,24 @@ public class DBConnection {
 
 	}
 	
+	public boolean logIn(String username, String pass) throws SQLException{
+		String u = username;
+		String p = pass;
+		
+		String SQL = "Select * from users where uname = ? and upass = ?";
+		PreparedStatement pstmt = con.prepareStatement(SQL);
+		pstmt.setString(1, u);
+		pstmt.setString(2, p);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		if(rs.next()){
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public void connectToDB(String userid, String pass) throws SQLException{
 		String u = userid;
 		String p = pass;
