@@ -85,14 +85,17 @@ public class LoginPanel extends JPanel implements StringConstants {
 				
 				try {
 					//try to connect to db
-					//db.connectToDB();    //this one uses a con string that already has uname and pass in it
-					db.connectToDB(uname,pass);
-					
-					textField.setText("");
-					passwordField.setText("");
-					
-					CardLayout cl = (CardLayout)(mainpanel.getLayout());
-					cl.show(mainpanel, CONN);
+					db.connectToDB(); 
+					if(db.logIn(uname, pass)){
+						textField.setText("");
+						passwordField.setText("");
+						
+						CardLayout cl = (CardLayout)(mainpanel.getLayout());
+						cl.show(mainpanel, CONN);
+					}
+					else{
+						JOptionPane.showMessageDialog(mainpanel, "UserName or Password Incorrect");
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(mainpanel, "Error Logging in\n");
