@@ -35,6 +35,7 @@ public class NewUserPanel extends JPanel implements StringConstants{
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JTextField textField_3;
 
 	/**
 	 * Create the panel.
@@ -45,11 +46,11 @@ public class NewUserPanel extends JPanel implements StringConstants{
 		this.db = db;
 		
 		goBack = new JButton("GO BACK");
-		goBack.setBounds(234, 231, 89, 23);
+		goBack.setBounds(234, 266, 89, 23);
 		add(goBack);
 		
 		txtUsername = new JTextField();
-		txtUsername.setBounds(234, 83, 146, 20);
+		txtUsername.setBounds(234, 63, 146, 20);
 		add(txtUsername);
 		txtUsername.setColumns(10);
 		
@@ -59,37 +60,37 @@ public class NewUserPanel extends JPanel implements StringConstants{
 		add(lblCreateNewUser);
 		
 		pwdPassword = new JPasswordField();
-		pwdPassword.setBounds(234, 129, 146, 20);
+		pwdPassword.setBounds(234, 111, 146, 20);
 		add(pwdPassword);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(234, 114, 146, 14);
+		lblPassword.setBounds(234, 94, 146, 14);
 		add(lblPassword);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm Password");
-		lblConfirmPassword.setBounds(234, 163, 146, 14);
+		lblConfirmPassword.setBounds(234, 142, 146, 14);
 		add(lblConfirmPassword);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(234, 178, 146, 20);
+		passwordField.setBounds(234, 160, 146, 20);
 		add(passwordField);
 		
-		JLabel lblEmailAddress = new JLabel("Email Address");
-		lblEmailAddress.setBounds(234, 69, 146, 14);
-		add(lblEmailAddress);
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setBounds(234, 45, 146, 14);
+		add(lblUsername);
 		
-		JLabel lblStreetAddressLine = new JLabel("Street Address Line 1");
-		lblStreetAddressLine.setBounds(10, 69, 146, 14);
-		add(lblStreetAddressLine);
+		JLabel lblStreetAddress = new JLabel("Street Address");
+		lblStreetAddress.setBounds(10, 69, 146, 14);
+		add(lblStreetAddress);
 		
 		textField = new JTextField();
 		textField.setBounds(10, 83, 146, 20);
 		add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblStreetAddressLine_1 = new JLabel("Street Address Line 2");
-		lblStreetAddressLine_1.setBounds(10, 114, 146, 14);
-		add(lblStreetAddressLine_1);
+		JLabel lblState = new JLabel("State");
+		lblState.setBounds(10, 163, 146, 14);
+		add(lblState);
 		
 		textField_1 = new JTextField();
 		textField_1.setBounds(10, 129, 146, 20);
@@ -97,21 +98,30 @@ public class NewUserPanel extends JPanel implements StringConstants{
 		textField_1.setColumns(10);
 		
 		JLabel lblCity = new JLabel("City");
-		lblCity.setBounds(10, 163, 146, 14);
+		lblCity.setBounds(10, 114, 146, 14);
 		add(lblCity);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(10, 178, 146, 20);
+		textField_2.setBounds(10, 232, 146, 20);
 		add(textField_2);
 		textField_2.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox(StatesList);
-		comboBox.setBounds(10, 231, 146, 20);
+		comboBox.setBounds(10, 178, 146, 20);
 		add(comboBox);
 		
-		JLabel lblState = new JLabel("State");
-		lblState.setBounds(10, 217, 46, 14);
-		add(lblState);
+		JLabel lblZipCode = new JLabel("Zip Code");
+		lblZipCode.setBounds(10, 217, 146, 14);
+		add(lblZipCode);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(234, 232, 146, 20);
+		add(textField_3);
+		textField_3.setColumns(10);
+		
+		JLabel lblPhoneNumber = new JLabel("Phone Number");
+		lblPhoneNumber.setBounds(234, 217, 146, 14);
+		add(lblPhoneNumber);
 		goBack.addActionListener(new NewUserPanelListener());
 
 	}
