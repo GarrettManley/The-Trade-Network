@@ -18,19 +18,20 @@ public class LoginPanel extends JPanel implements StringConstants {
 	private JPasswordField passwordField;
 	private JButton createNew;
 	private JButton logIn;
-	private JPanel mainpanel;
+	private TheMainPanel mainpanel;
 	private DBConnection db;
-	
 
 	/**
 	 * Create the panel.
 	 * Mainpanel is the only arguement, used to refer to the layout
 	 */
-	public LoginPanel(JPanel mainpanel, DBConnection db) {
+	public LoginPanel(TheMainPanel mainpanel, DBConnection db) {
 		
+
 		this.mainpanel = mainpanel;
 		this.db = db;
 		setLayout(null);
+		
 		
 		createNew = new JButton("Create New");
 		createNew.setBounds(87, 228, 123, 23);
@@ -77,6 +78,7 @@ public class LoginPanel extends JPanel implements StringConstants {
 			if(e.getSource() == createNew){
 				CardLayout cl = (CardLayout)(mainpanel.getLayout());
 				cl.show(mainpanel, CREATENEW);
+				mainpanel.changeSize(450, 500);
 			}
 			else if(e.getSource() == logIn){
 				String uname = textField.getText();
@@ -91,7 +93,8 @@ public class LoginPanel extends JPanel implements StringConstants {
 						passwordField.setText("");
 						
 						CardLayout cl = (CardLayout)(mainpanel.getLayout());
-						cl.show(mainpanel, CONN);
+						cl.show(mainpanel, MYTRADES);
+						mainpanel.changeSize(800,800);
 					}
 					else{
 						JOptionPane.showMessageDialog(mainpanel, "UserName or Password Incorrect");
@@ -102,8 +105,7 @@ public class LoginPanel extends JPanel implements StringConstants {
 					e1.printStackTrace();
 				}
 				
-			}
-			
+			}			
 		}
 		
 	}
