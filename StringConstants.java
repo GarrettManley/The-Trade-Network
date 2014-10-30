@@ -4,6 +4,8 @@ public interface StringConstants {
 	final static String CONN = "Connection Success Display"; 
 	final static String ADDITEM = "Add Item";
 	final static String REMOVEITEM = "Remove Item";
+	final static String MYTRADES = "My Trades";
+	final static String SEARCH = "Search";
 	
 	final static String[] StatesList = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
 		"Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
