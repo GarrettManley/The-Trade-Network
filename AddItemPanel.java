@@ -6,30 +6,35 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JComboBox;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 
 public class AddItemPanel extends JPanel implements StringConstants{
-	private JPanel mainpanel;
+	private TheMainPanel mainpanel;
 	private DBConnection db;
 	private JTextField textField;
+	private JButton btnCancel;
 	
 	
 
 	/**
 	 * Create the panel.
 	 */
-	public AddItemPanel(JPanel mainpanel, DBConnection db) {
+	public AddItemPanel(TheMainPanel mainpanel, DBConnection db) {
 		setLayout(null);
 		this.mainpanel = mainpanel;
 		this.db = db;
+		
+		setPreferredSize(new Dimension(450,300));
 		
 		JLabel label = new JLabel("");
 		label.setBounds(0, 0, 0, 0);
@@ -78,9 +83,24 @@ public class AddItemPanel extends JPanel implements StringConstants{
 		btnAddItem.setBounds(234, 216, 117, 29);
 		add(btnAddItem);
 		
-		JButton btnCancel = new JButton("Cancel");
+		btnCancel = new JButton("Cancel");
 		btnCancel.setBounds(89, 216, 117, 29);
 		add(btnCancel);
+		btnCancel.addActionListener(new ButtonListener());
 
+	}
+	
+	class ButtonListener implements ActionListener{
+
+
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == btnCancel){
+				CardLayout cl = (CardLayout)(mainpanel.getLayout());
+				cl.show(mainpanel, MYTRADES);
+				mainpanel.changeSize(800,800);
+			}
+			
+		}
+		
 	}
 }
