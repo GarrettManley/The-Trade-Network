@@ -1,10 +1,17 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
 public class DBConnection {
+	
+	Connection con;
+	//PreparedStatement pstmt;
+	
 	public DBConnection(){
+
 		//register with server(dont change this)
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -21,8 +28,9 @@ public class DBConnection {
 		// jdbc:sqlserver://[serverName[\instanceName][:portNumber]][;property=value[;property=value]]
 		//
 		
-		String db_connect_string = "jdbc:sqlserver://;servername=localhost\\CEIT2553214X028;database=tradenetwork;";	
-		Connection con = DriverManager.getConnection(db_connect_string);
+		String db_connect_string = "jdbc:sqlserver://;servername=localhost;"
+				+ "username=garrettmanley;password=111223;database=TheTradeNetwork;";	
+		this.con = DriverManager.getConnection(db_connect_string);
 
 	}
 	
@@ -30,8 +38,8 @@ public class DBConnection {
 		String u = username;
 		String p = pass;
 		
-		String SQL = "Select * from users where uname = ? and upass = ?";
-		PreparedStatement pstmt = con.prepareStatement(SQL);
+		String SQL = "Select * from PERSON where username = ? and password = ?";
+		PreparedStatement pstmt = this.con.prepareStatement(SQL);
 		pstmt.setString(1, u);
 		pstmt.setString(2, p);
 		
@@ -44,16 +52,23 @@ public class DBConnection {
 		return false;
 	}
 	
-	public void connectToDB(String userid, String pass) throws SQLException{
-		String u = userid;
-		String p = pass;
+	public void createUser(String uname, String pass, int zip, String state, String phone, String city, String street) throws SQLException{
+		if(con==null){
+			System.err.println("CON IS NULL!!!!!!ONE!!!11!!");
+		}
 		
-		System.out.println(u +"\t\t" + p);
+		String SQL = "INSERT INTO PERSON VALUES(?,?,?,?,?,?,?)";
 		
-		String db_connect_string = "jdbc:sqlserver://192.168.254.36\\SQLEXPRESS:1433;user=" + u + ";password="+ p;
-
-		Connection con = DriverManager.getConnection(db_connect_string);
-	
-	
+		PreparedStatement pstmt = this.con.prepareStatement(SQL);
+		
+		pstmt.setString(1, uname);
+		pstmt.setString(2, pass);
+		pstmt.setInt(3, zip);
+		pstmt.setString(4, state);
+		pstmt.setString(5, phone);
+		pstmt.setString(6, city);
+		pstmt.setString(7, street);
+		
+		pstmt.executeUpdate();
 	}
 }
