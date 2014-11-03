@@ -28,9 +28,10 @@ public class DBConnection {
 		// jdbc:sqlserver://[serverName[\instanceName][:portNumber]][;property=value[;property=value]]
 		//
 		
-		String db_connect_string = "jdbc:sqlserver://;servername=localhost;"
-				+ "username=garrettmanley;password=111223;database=TheTradeNetwork;";	
-		this.con = DriverManager.getConnection(db_connect_string);
+		//192.168.254.35 (laptop ip)
+		
+		String db_connect_string = "jdbc:sqlserver://192.168.254.35\\SQLEXPRESS;user=sa;password=password0987654321;databaseName=TheTradeNetwork;";	
+		con = DriverManager.getConnection(db_connect_string);
 
 	}
 	
