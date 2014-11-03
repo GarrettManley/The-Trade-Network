@@ -35,17 +35,24 @@ public class DBConnection {
 
 	}
 	
-	public boolean logIn(String username, String pass) throws SQLException{
+public boolean logIn(String username, String pass) throws SQLException{
 		String u = username;
 		String p = pass;
-		
+		//create sql query string(the ?s are variables)
 		String SQL = "Select * from PERSON where username = ? and password = ?";
+		
+		//create a prepared statement to be executed
 		PreparedStatement pstmt = this.con.prepareStatement(SQL);
+		
+		//set the ?s to be variables, 1 = first ? etc.
 		pstmt.setString(1, u);
 		pstmt.setString(2, p);
 		
+		
+		//execute query and get a result set(either a 1d or 2d array)
 		ResultSet rs = pstmt.executeQuery();
 		
+		//if username exists with same pass then log in
 		if(rs.next()){
 			return true;
 		}
