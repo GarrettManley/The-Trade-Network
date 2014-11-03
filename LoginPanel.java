@@ -84,10 +84,8 @@ public class LoginPanel extends JPanel implements StringConstants {
 				String uname = textField.getText();
 				String pass = new String(passwordField.getPassword());
 				
-				
 				try {
 					//try to connect to db
-					db.connectToDB(); 
 					if(db.logIn(uname, pass)){
 						textField.setText("");
 						passwordField.setText("");
