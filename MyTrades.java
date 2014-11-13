@@ -16,66 +16,60 @@ import java.awt.Font;
 
 
 public class MyTrades extends JPanel implements StringConstants {
-	private JTable trades_table;
-	private JTable history_table;
-	private JButton btn_addItem;
-	private JButton btn_refresh;
+	private JTable table;
+	private JTable table2;
+	private JButton btnNewButton;
+	private JButton btnNewButton_4;
 	private TheMainPanel mainpanel;
 	private ProjectTableModel model1;
 	private JTabbedPane tabbedPane;
-	private JButton btn_search;
-	private JButton btn_removeItem;
-	private JButton btn_myOffers;
+	private JButton btnNewButton_2;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_3;
 
 	/**
-	 * Main Page for application, user can navigate to different forms
+	 * Create the panel.
 	 */
 	public MyTrades(TheMainPanel mainpanel, DBConnection db) {
 		setLayout(null);
 
 		this.mainpanel = mainpanel;
 		
-		
-		//make a tabbedPane and add tables to it
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(197, 80, 545, 668);
 		add(tabbedPane);
+		table2 = new JTable(new ProjectTableModel());
 		
-		//when creating new table args need to be a tableModel
-		//can have no args(default data) or you add your own data
-		//new ProjectTableModel(String[] columnNames, Object[][] data)
-		history_table = new JTable(new ProjectTableModel());
-		tabbedPane.addTab("History", null, new JScrollPane(history_table), null);
+		tabbedPane.addTab("History", null, new JScrollPane(table2), null);
 		
-		trades_table = new JTable(new ProjectTableModel());
-		tabbedPane.addTab("Current", null, new JScrollPane(trades_table), null);
+		table = new JTable(new ProjectTableModel());
+		tabbedPane.addTab("Current", null, new JScrollPane(table), null);
 		
-		//add buttons and attach listeners
-		btn_addItem = new JButton("Add Item");
-		btn_addItem.setBounds(32, 90, 127, 47);
-		add(btn_addItem);
-		btn_addItem.addActionListener(new ButtonListener());
 		
-		btn_removeItem = new JButton("Remove Item");
-		btn_removeItem.setBounds(32, 169, 127, 47);
-		add(btn_removeItem);
-		btn_removeItem.addActionListener(new ButtonListener());
+		btnNewButton = new JButton("Add Item");
+		btnNewButton.setBounds(32, 90, 127, 47);
+		add(btnNewButton);
+		btnNewButton.addActionListener(new ButtonListener());
 		
-		btn_search = new JButton("Search");
-		btn_search.setBounds(32, 257, 127, 47);
-		add(btn_search);
-		btn_search.addActionListener(new ButtonListener());
+		btnNewButton_1 = new JButton("Remove Item");
+		btnNewButton_1.setBounds(32, 169, 127, 47);
+		add(btnNewButton_1);
+		btnNewButton_1.addActionListener(new ButtonListener());
 		
-		btn_myOffers = new JButton("Look at Offers");
-		btn_myOffers.setBounds(32, 341, 127, 47);
-		add(btn_myOffers);
-		btn_myOffers.addActionListener(new ButtonListener());
+		btnNewButton_2 = new JButton("Search");
+		btnNewButton_2.setBounds(32, 257, 127, 47);
+		add(btnNewButton_2);
+		btnNewButton_2.addActionListener(new ButtonListener());
 		
-		btn_refresh = new JButton("Refresh Page");
-		btn_refresh.setBounds(32, 421, 127, 47);
-		add(btn_refresh);
-		btn_refresh.addActionListener(new ButtonListener());
+		btnNewButton_3 = new JButton("Look at Offers");
+		btnNewButton_3.setBounds(32, 341, 127, 47);
+		add(btnNewButton_3);
+		btnNewButton_3.addActionListener(new ButtonListener());
 		
+		btnNewButton_4 = new JButton("Refresh Page");
+		btnNewButton_4.setBounds(32, 421, 127, 47);
+		add(btnNewButton_4);
+		btnNewButton_4.addActionListener(new ButtonListener());
 		
 		JLabel lblMyTrades = new JLabel("My Trades");
 		lblMyTrades.setFont(new Font("Tahoma", Font.PLAIN, 27));
@@ -88,29 +82,24 @@ public class MyTrades extends JPanel implements StringConstants {
 	
 	class ButtonListener implements ActionListener{
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			//if user presses additem button
-			if(e.getSource() == btn_addItem){
+			if(e.getSource() == btnNewButton){
 				CardLayout cl = (CardLayout)(mainpanel.getLayout());
 				cl.show(mainpanel, ADDITEM);
 				mainpanel.changeSize(450,300);
 			}
-			//if user presses removeitem button
-			else if(e.getSource() == btn_removeItem){
+			else if(e.getSource() == btnNewButton_1){
 				
 			}
-			//if user presses search button
-			else if(e.getSource() == btn_search){
+			else if(e.getSource() == btnNewButton_2){
 				CardLayout cl = (CardLayout)(mainpanel.getLayout());
 				cl.show(mainpanel, SEARCH);
 			}
-			//if user presses myoffers button
-			else if(e.getSource() == btn_myOffers){
+			else if(e.getSource() == btnNewButton_3){
 				
 			}
-			//if user presses refresh button
-			else if(e.getSource() == btn_refresh){
+			else if(e.getSource() == btnNewButton_4){
 				String[] cNames = {"UserName", "Item", "ItemDescription", "OffersYN"};
 				Object[][] data = {
 						{"Charles","violin","its a violin","Y"},
@@ -118,7 +107,7 @@ public class MyTrades extends JPanel implements StringConstants {
 				};
 				for(int i = 0; i < data.length; i++){
 					for(int j = 0; j < cNames.length; j++){
-						trades_table.setValueAt(data[i][j], i, j);
+						table.setValueAt(data[i][j], i, j);
 					}
 				}
 			}
