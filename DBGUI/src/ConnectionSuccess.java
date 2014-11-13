@@ -13,13 +13,12 @@ import javax.swing.JButton;
 public class ConnectionSuccess extends JPanel implements StringConstants{
 	JButton btnGoBack;
 	JPanel mainpanel;
-	/**
-	 * Create the panel.
-	 */
-	
-	
-	public ConnectionSuccess(JPanel mainpanel) {
+	OnChangeSize callFrame;
+
+	public ConnectionSuccess(TheMainPanel mainpanel) {
 		setLayout(null);
+		setSize(800,800);
+		
 		
 		
 		this.mainpanel = mainpanel;
@@ -38,6 +37,7 @@ public class ConnectionSuccess extends JPanel implements StringConstants{
 	
 	class ConnectionSuccessListener implements ActionListener{
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnGoBack){
 				CardLayout cl = (CardLayout)(mainpanel.getLayout());

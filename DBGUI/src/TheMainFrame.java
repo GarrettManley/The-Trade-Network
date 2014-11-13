@@ -25,14 +25,12 @@ public class TheMainFrame {
 	 */
 	public TheMainFrame() {
 		JFrame frame = new JFrame("The Trade Network");
-		frame.setBackground(Color.WHITE);
-		DBConnection db = new DBConnection();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 	
 		frame.setBounds(100, 100, 450, 300);
-		contentPane = new TheMainPanel(frame, db);
+		contentPane = new TheMainPanel(frame);
 		contentPane.setBackground(Color.WHITE);
 		frame.setContentPane(contentPane);
 	}

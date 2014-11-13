@@ -1,5 +1,6 @@
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,39 +9,59 @@ import javax.swing.JPanel;
 public class TheMainPanel extends JPanel implements StringConstants, OnChangeSize {
 	private LoginPanel loginpage;
 	private NewUserPanel newuserpage;
-	private ConnectionSuccess connsuccess;
 	private AddItemPanel additempage;
-	private RemoveItemPanel removeitempage;
 	private JFrame frame;
 	private MyTrades mytrades;
 	private SearchPanel search;
+	private DBConnection db;
+	
+	//for use with user specific queries
+	private String username;
 	 
 	/**
 	 * Create the panel.
 	 */
-	public TheMainPanel(JFrame mainframe, DBConnection db) {
+	public TheMainPanel(JFrame mainframe) {
 		CardLayout cl = new CardLayout();
+		db = new DBConnection(this);
 		frame = mainframe;
 		setPreferredSize(new Dimension(450,300));
 		setLayout(cl);
 		
+		try {
+			db.connectToDB();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 		loginpage = new LoginPanel(this, db);
 		newuserpage = new NewUserPanel(this, db);
-		connsuccess = new ConnectionSuccess(this);
-		additempage = new AddItemPanel(this, db);
-		removeitempage = new RemoveItemPanel(this, db);
-		mytrades = new MyTrades(this,db);
-		search = new SearchPanel(this,db);
+		
 		
 		
 		add(loginpage, LOGIN);
 		add(newuserpage, CREATENEW);
-		add(connsuccess, CONN);
+		
+		
+	}
+	
+	public String getUserName(){
+		return this.username;
+	}
+	
+	public void setUserName(String uname){
+		this.username = uname;
+	}
+	
+	public void onLogIn(){
+		additempage = new AddItemPanel(this, db);
+		mytrades = new MyTrades(this,db);
+		search = new SearchPanel(this,db);
+		
 		add(additempage, ADDITEM);
-		add(removeitempage, REMOVEITEM);
 		add(mytrades, MYTRADES);
 		add(search, SEARCH);
-		
 	}
 
 	@Override
