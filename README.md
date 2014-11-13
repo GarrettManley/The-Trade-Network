@@ -4,7 +4,7 @@ The-Trade-Network
 YO, ok lets make this work
 
 Will - get remove item to work and trade table
-(remember to delete from trade table - not trade)
+(remember to delete from trade table - not item)
 (columns wanted - should be in gui - and if it doesnt work its in string constants)
 
 
