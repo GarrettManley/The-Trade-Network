@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -31,23 +32,26 @@ public class TheMainPanel extends JPanel implements StringConstants, OnChangeSiz
 		try {
 			db.connectToDB();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this, "Connection to db failed - you wont be able to log in");
 			e.printStackTrace();
 		} 
-		
+		//add pages to gui - the rest get added after login
+		//when the username is found so it can refresh tables immediately.
 		loginpage = new LoginPanel(this, db);
 		newuserpage = new NewUserPanel(this, db);
-		
-		
-		
+
 		add(loginpage, LOGIN);
 		add(newuserpage, CREATENEW);
-		
-		
+
 	}
 	
 	public String getUserName(){
 		return this.username;
+	}
+	
+	//used for other pages to refresh the page
+	public MyTrades getMyTradesPage(){
+		return this.mytrades;
 	}
 	
 	public void setUserName(String uname){

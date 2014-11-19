@@ -93,15 +93,19 @@ public class AddItemPanel extends JPanel implements StringConstants{
 
 	}
 	
+	private void goBack(){
+		CardLayout cl = (CardLayout)(mainpanel.getLayout());
+		cl.show(mainpanel, MYTRADES);
+		mainpanel.changeSize(800,800);
+	}
+	
 	//HANDLES BUTTON CLICKS
 	class ButtonListener implements ActionListener{
 
 
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == btnCancel){
-				CardLayout cl = (CardLayout)(mainpanel.getLayout());
-				cl.show(mainpanel, MYTRADES);
-				mainpanel.changeSize(800,800);
+				goBack();
 			}
 			else if(e.getSource() == btnAddItem){
 				String itemName = itemField.getText();
@@ -109,10 +113,20 @@ public class AddItemPanel extends JPanel implements StringConstants{
 				int category = comboBox.getSelectedIndex() + 1;
 				
 				try {
-					db.addItemToDB(itemName, itemDescription, category);
-					JOptionPane.showMessageDialog(mainpanel, "ITEM ADDED!");
-					itemField.setText("");
-					item_desc.setText("");
+					//if user typed something in name and description - add it to db.
+					if(!itemName.equals("") && !itemDescription.equals("")){
+						db.addItemToDB(itemName, itemDescription, category);
+						JOptionPane.showMessageDialog(mainpanel, "ITEM ADDED!");
+						itemField.setText("");
+						item_desc.setText("");
+						
+						//refresh page before returning to it.
+						mainpanel.getMyTradesPage().refresh_page();
+						
+						goBack();
+					}else{
+						JOptionPane.showMessageDialog(mainpanel, "Please fill out all fields to add an item");
+					}
 					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

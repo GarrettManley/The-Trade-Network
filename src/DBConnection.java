@@ -161,7 +161,7 @@ public class DBConnection {
 		// FIRST FIND THE LENGTH OF ARRAY
 		try {
 			ResultSet rs = con.createStatement().executeQuery(
-					"Select count(*) AS itemCount from item where traderA = '"
+					"Select count(*) AS itemCount from tradetable t join item i on t.item_id = i.item_id where traderA = '"
 							+ mainpanel.getUserName() + "'");
 			while (rs.next()) {
 				size = rs.getInt("itemCount");
@@ -171,7 +171,7 @@ public class DBConnection {
 			// AFTER GETTING THE SIZE FILL THE STRING ARRAY WITH ITEMS
 			items = new String[size];
 			rs = con.createStatement().executeQuery(
-					"Select itemName from item where traderA = '"
+					"Select itemName from tradetable t join item i on t.item_id  = i.item_id where traderA = '"
 							+ mainpanel.getUserName() + "'");
 
 			for (int i = 0; i < size; i++) {
@@ -245,7 +245,7 @@ public class DBConnection {
 		ResultSet rs = con
 				.createStatement()
 				.executeQuery(
-						"Select count(*) AS itemCount from item join category on item.categoryID = category.categoryID where itemname = '"
+						"Select count(*) AS itemCount from tradetable t join item i on t.item_id = i.item_id where itemname =  '"
 								+ itemname
 								+ "' and traderA != '"
 								+ mainpanel.getUserName() + "'");
@@ -258,6 +258,7 @@ public class DBConnection {
 		// 3.)Query the db for data wanted
 		String SQL = "select itemname, item_description, categoryName, traderA "
 				+ "from item join category on item.categoryID = category.categoryID "
+				+ "join tradetable t on item.item_id = t.item_id "
 				+ "where itemname = ? and traderA != '"
 				+ mainpanel.getUserName() + "'";
 
@@ -284,7 +285,7 @@ public class DBConnection {
 		ResultSet rs = con
 				.createStatement()
 				.executeQuery(
-						"Select count(*) AS itemCount from item join category on item.categoryID = category.categoryID where categoryName = '"
+						"Select count(*) AS itemCount from item i join category c on i.categoryid = c.categoryid join tradetable t on t.item_id = i.item_id where categoryname ='"
 								+ category
 								+ "' and traderA != '"
 								+ mainpanel.getUserName() + "'");
@@ -297,6 +298,7 @@ public class DBConnection {
 		// 3.)Query the db for data wanted
 		String SQL = "select itemname, item_description, categoryName, traderA "
 				+ "from item join category on item.categoryID = category.categoryID "
+				+ "join tradetable t on item.item_id = t.item_id "
 				+ "where categoryName = ? and traderA != '"
 				+ mainpanel.getUserName() + "'";
 
@@ -323,7 +325,7 @@ public class DBConnection {
 		ResultSet rs = con
 				.createStatement()
 				.executeQuery(
-						"Select count(*) AS itemCount from item join category on item.categoryID = category.categoryID where traderA = '"
+						"Select count(*) AS itemCount from item i join tradetable t on i.item_id = t.item_id where traderA = '"
 								+ uname
 								+ "' and traderA != '"
 								+ mainpanel.getUserName() + "'");
@@ -336,6 +338,7 @@ public class DBConnection {
 		// 3.)Query the db for data wanted
 		String SQL = "select itemname, item_description, categoryName, traderA "
 				+ "from item join category on item.categoryID = category.categoryID "
+				+ "join tradetable t on item.item_id = t.item_id "
 				+ "where traderA = ? and traderA != '"
 				+ mainpanel.getUserName() + "'";
 
@@ -356,20 +359,17 @@ public class DBConnection {
 		return data;
 	}
 	
-	
+	//removes an item from the trade table
 	public void removeItem(String[] itemValues) throws SQLException {
-		
+		String SQL = "delete tradetable where item_id in(select item_id from item where itemname = ? and item_description = ?)";
+		PreparedStatement pstmt = this.con.prepareStatement(SQL);
+		pstmt.setString(1, itemValues[0]);
+		pstmt.setString(2, itemValues[1]);
+		pstmt.executeUpdate();
 	}
 
 	// Query the the db for trade history data
 	public Object[][] getTradeHistoryData() throws SQLException {
-		/*
-		 * select item.itemname, offer.traderB, itemOffer.itemname,
-		 * offer.date_of_offer, offer.acceptedYN from item join tradehistory on
-		 * item.item_id = tradehistory.item_id join offer on
-		 * tradehistory.offer_id = offer.offer_id join item as itemOffer on
-		 * itemOffer.item_id = offer.item_id where item.traderA = 'marcus';
-		 */
 
 		// 2d array table data will be stored in
 		Object[][] data = null;
@@ -417,9 +417,49 @@ public class DBConnection {
 
 		return data;
 	}
+	
+	public Object[][] getOfferTableData() throws SQLException {
+		Object[][] data = null;
+		
+		int size = 0;
+		ResultSet rs = con
+				.createStatement()
+				.executeQuery("select count(*) AS itemCount "
+				+ "from item i join tradetable t on i.item_id = t.item_id "
+				+ "join offer o on t.offer_id = o.offer_id "
+				+ "join item itemoffer on o.item_id = itemoffer.item_id "
+				+ "where i.traderA = '" + mainpanel.getUserName() + "'");
+		
+		while(rs.next()){
+			size = rs.getInt("itemCount");
+		}
+		
+		data = new Object[size][6];
+
+		String SQL = "select item.itemname iA, offer.traderB tB, itemOffer.itemname iB, offer.date_of_offer dO, offer.acceptedYN aYN "
+				+ "from item join tradetable on item.item_id = tradetable.item_id "
+				+ "join offer on tradetable.offer_id = offer.offer_id "
+				+ "join item as itemOffer on itemOffer.item_id = offer.item_id "
+				+ "where item.traderA = ?";
+		PreparedStatement pstmt = this.con.prepareStatement(SQL);
+		pstmt.setString(1, mainpanel.getUserName());
+
+		// 3.) Fill 2d array with data needed
+		rs = pstmt.executeQuery();
+		int i = 0;
+		while (rs.next()) {
+			data[i][0] = rs.getString("iA");
+			data[i][1] = rs.getString("tB");
+			data[i][2] = rs.getString("iB");
+			data[i][3] = rs.getDate("dO");
+			data[i][4] = rs.getString("aYN");
+			i++;
+		}
+
+		return data;
+	}
 
 	public Object[][] getTradeTableData() throws SQLException {
-		System.out.println("MORE STUFF");
 		Object[][] data = null;
 
 		int size = 0;

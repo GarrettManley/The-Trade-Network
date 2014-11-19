@@ -3,11 +3,8 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -19,11 +16,13 @@ import java.sql.SQLException;
 public class MyTrades extends JPanel implements StringConstants {
 	private JTable trades_table;
 	private JTable history_table;
+	private JTable offers_table;
 	private JButton btn_addItem;
 	private JButton btn_refresh;
 	private TheMainPanel mainpanel;
 	private ProjectTableModel model1;
 	private ProjectTableModel model2;
+	private ProjectTableModel model3;
 	private JTabbedPane tabbedPane;
 	private JButton btn_search;
 	private JButton btn_removeItem;
@@ -83,12 +82,13 @@ public class MyTrades extends JPanel implements StringConstants {
 	// makes two table models which contain data for the actual table
 	// model takes two arguments, column names and the data
 	// data recieved by querying the database for information
-	public void createTables() {
+	private void createTables() {
 		try {
 			model1 = new ProjectTableModel(tradetableColumns,
 					db.getTradeTableData());
 			model2 = new ProjectTableModel(tradeHistoryColumns,
 					db.getTradeHistoryData());
+			model3 = new ProjectTableModel(offerTableColumns, db.getOfferTableData());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,7 +99,16 @@ public class MyTrades extends JPanel implements StringConstants {
 		history_table = new JTable(model2);
 		tabbedPane
 				.addTab("History", null, new JScrollPane(history_table), null);
+		
+		offers_table = new JTable(model3);
+		tabbedPane.addTab("Offers", null, new JScrollPane(offers_table), null);
 
+	}
+	
+	public void refresh_page() throws SQLException{
+		model1.refresh(tradetableColumns, db.getTradeTableData());
+		model2.refresh(tradeHistoryColumns, db.getTradeHistoryData());
+		model3.refresh(offerTableColumns, db.getOfferTableData());
 	}
 
 	class ButtonListener implements ActionListener {
@@ -114,18 +123,26 @@ public class MyTrades extends JPanel implements StringConstants {
 			}
 			// if user presses removeitem button
 			else if (e.getSource() == btn_removeItem) {
+				//if in tradetable tab
 				if (tabbedPane.getSelectedIndex() == 0) {
-					System.out.println(trades_table.getSelectedRow());
+					//get data to be removed
 					String[] rowData = model1.getValuesAt(trades_table.getSelectedRow());
+					
 					if(JOptionPane.showConfirmDialog(mainpanel, "Are you sure you want to\nDelete this Item?: " + rowData[0]) == JOptionPane.YES_OPTION){
 						try {
+							//remove and refresh page
 							db.removeItem(rowData);
+							refresh_page();
+							
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
 					
+				}
+				else{
+					JOptionPane.showMessageDialog(mainpanel, "You have to be in current trade tab to remove an item!");
 				}
 			}
 			// if user presses search button
@@ -139,12 +156,8 @@ public class MyTrades extends JPanel implements StringConstants {
 			}
 			// if user presses refresh button
 			else if (e.getSource() == btn_refresh) {
-				Object[][] data_model1;
 				try {
-					data_model1 = db.getTradeTableData();
-					model1.refresh(tradetableColumns, data_model1);
-					model2.refresh(tradeHistoryColumns,
-							db.getTradeHistoryData());
+					refresh_page();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

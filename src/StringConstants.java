@@ -9,9 +9,10 @@ public interface StringConstants {
 	final static String SEARCH = "Search";
 	
 	//Columns for TableModel
-	final static String[] tradetableColumns = {"ItemName","ItemDescription","CategoryName", "OffersYN"};
-	final static String[] tradeHistoryColumns = {"ItemName","OfferFrom","Item Offered", "DateOfOffer","DateAccepted"};
-	final static String[] searchtableColumns = {"Item Name","Item Description","Category","Person Trading"};
+	final static String[] tradetableColumns = {"Item","Description","Category", "Offers?"};
+	final static String[] tradeHistoryColumns = {"Item","OfferFrom","Item Offered", "DateOfOffer","DateAccepted"};
+	final static String[] offerTableColumns = {"Item","OfferFrom","Item Offered", "DateOfOffer","Accepted?"};
+	final static String[] searchtableColumns = {"Item","Description","Category","Person Trading"}; 
 	
 	//For ComboBoxes
 	final static String[] searchBy = {"ItemName","Category", "User"};

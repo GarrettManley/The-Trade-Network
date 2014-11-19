@@ -14,7 +14,6 @@ public class ProjectTableModel extends AbstractTableModel {
 	}
 
 	public void refresh(String[] cNames, Object[][] data) {
-		System.out.println("REFRESHING");
 		this.columnNames = cNames;
 		this.data = data;
 
