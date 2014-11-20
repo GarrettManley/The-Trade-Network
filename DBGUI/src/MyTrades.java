@@ -159,11 +159,8 @@ public class MyTrades extends JPanel implements StringConstants {
 			}
 			// if user presses myoffers button
 			else if (e.getSource() == btn_acceptedOffers) {
-				/*
-				 * 
-				 * CREATE ACCEPTED OFFERS PANEL HERE
-				 * 
-				 */
+				CardLayout cl = (CardLayout) (mainpanel.getLayout());
+				cl.show(mainpanel, ACCEPTEDOFFERS);
 			}
 			//if user presses accept offer button
 			else if(e.getSource() == btnAcceptOffer){
