@@ -15,6 +15,7 @@ public class TheMainPanel extends JPanel implements StringConstants, OnChangeSiz
 	private MyTrades mytrades;
 	private SearchPanel search;
 	private DBConnection db;
+	private AcceptedOffersPanel acceptedoffers;
 	
 	//for use with user specific queries
 	private String username;
@@ -62,10 +63,12 @@ public class TheMainPanel extends JPanel implements StringConstants, OnChangeSiz
 		additempage = new AddItemPanel(this, db);
 		mytrades = new MyTrades(this,db);
 		search = new SearchPanel(this,db);
+		acceptedoffers = new AcceptedOffersPanel(this,db);
 		
 		add(additempage, ADDITEM);
 		add(mytrades, MYTRADES);
 		add(search, SEARCH);
+		add(acceptedoffers, ACCEPTEDOFFERS);
 	}
 
 	@Override
