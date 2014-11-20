@@ -7,12 +7,14 @@ public interface StringConstants {
 	final static String REMOVEITEM = "Remove Item";
 	final static String MYTRADES = "My Trades";
 	final static String SEARCH = "Search";
+	final static String ACCEPTEDOFFERS = "Accepted Offers";
 	
 	//Columns for TableModel
 	final static String[] tradetableColumns = {"Item","Description","Category", "Offers?"};
 	final static String[] tradeHistoryColumns = {"Item","OfferFrom","Item Offered", "DateOfOffer","DateAccepted"};
 	final static String[] offerTableColumns = {"Item","OfferFrom","Item Offered", "DateOfOffer","Accepted?"};
 	final static String[] searchtableColumns = {"Item","Description","Category","Person Trading"}; 
+	final static String[] offerInformationColumns = {"Username","State","City","Street"};
 	
 	//For ComboBoxes
 	final static String[] searchBy = {"ItemName","Category", "User"};
