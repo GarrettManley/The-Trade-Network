@@ -34,8 +34,14 @@ public class DBConnection {
 		// CONN STRING FOR LAPTOP DB
 		// String db_connect_string =
 		// "jdbc:sqlserver://192.168.254.35\\SQLEXPRESS;user=sa;password=password0987654321;databaseName=TheTradeNetwork;";
-		//String db_connect_string = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;user=marcus;password=password;databaseName=TheTradeNetwork;";
-		String db_connect_string = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;user=marcus;password=password;databaseName=TheTradeNetworkTest;";
+		/*
+		 * String db_connect_string =
+		 * "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;user=garrettmanley;password=111223;databaseName=TheTradeNetwork;"
+		 * ;
+		 */
+
+		String db_connect_string = "jdbc:sqlserver://;servername=localhost;"
+				+ "username=garrettmanley;password=111223;database=TheTradeNetwork;";
 		con = DriverManager.getConnection(db_connect_string);
 
 	}
@@ -161,9 +167,11 @@ public class DBConnection {
 
 		// FIRST FIND THE LENGTH OF ARRAY
 		try {
-			ResultSet rs = con.createStatement().executeQuery(
-					"Select count(*) AS itemCount from tradetable t join item i on t.item_id = i.item_id where traderA = '"
-							+ mainpanel.getUserName() + "'");
+			ResultSet rs = con
+					.createStatement()
+					.executeQuery(
+							"Select count(*) AS itemCount from tradetable t join item i on t.item_id = i.item_id where traderA = '"
+									+ mainpanel.getUserName() + "'");
 			while (rs.next()) {
 				size = rs.getInt("itemCount");
 			}
@@ -171,9 +179,10 @@ public class DBConnection {
 
 			// AFTER GETTING THE SIZE FILL THE STRING ARRAY WITH ITEMS
 			items = new String[size];
-			rs = con.createStatement().executeQuery(
-					"Select itemName from tradetable t join item i on t.item_id  = i.item_id where traderA = '"
-							+ mainpanel.getUserName() + "'");
+			rs = con.createStatement()
+					.executeQuery(
+							"Select itemName from tradetable t join item i on t.item_id  = i.item_id where traderA = '"
+									+ mainpanel.getUserName() + "'");
 
 			for (int i = 0; i < size; i++) {
 				rs.next();
@@ -359,8 +368,8 @@ public class DBConnection {
 
 		return data;
 	}
-	
-	//removes an item from the trade table
+
+	// removes an item from the trade table
 	public void removeItem(String[] itemValues) throws SQLException {
 		String SQL = "delete tradetable where item_id in(select item_id from item where itemname = ? and item_description = ?)";
 		PreparedStatement pstmt = this.con.prepareStatement(SQL);
@@ -418,23 +427,25 @@ public class DBConnection {
 
 		return data;
 	}
-	
+
 	public Object[][] getOfferTableData() throws SQLException {
 		Object[][] data = null;
-		
+
 		int size = 0;
 		ResultSet rs = con
 				.createStatement()
-				.executeQuery("select count(*) AS itemCount "
-				+ "from item i join tradetable t on i.item_id = t.item_id "
-				+ "join offer o on t.offer_id = o.offer_id "
-				+ "join item itemoffer on o.item_id = itemoffer.item_id "
-				+ "where i.traderA = '" + mainpanel.getUserName() + "'");
-		
-		while(rs.next()){
+				.executeQuery(
+						"select count(*) AS itemCount "
+								+ "from item i join tradetable t on i.item_id = t.item_id "
+								+ "join offer o on t.offer_id = o.offer_id "
+								+ "join item itemoffer on o.item_id = itemoffer.item_id "
+								+ "where i.traderA = '"
+								+ mainpanel.getUserName() + "'");
+
+		while (rs.next()) {
 			size = rs.getInt("itemCount");
 		}
-		
+
 		data = new Object[size][6];
 
 		String SQL = "select item.itemname iA, offer.traderB tB, itemOffer.itemname iB, offer.date_of_offer dO, offer.acceptedYN aYN "
@@ -496,5 +507,23 @@ public class DBConnection {
 		}
 
 		return data;
+	}
+
+	public Object[][] getAcceptedUserInfo() throws SQLException{
+		Object[][] data = null;
+		
+		ResultSet rs = con.createStatement().executeQuery("SELECT username, state, city, street FROM PERSON");
+		
+		int i=0;
+		while(rs.next()){
+			data[i][0] = rs.getString("username");
+			data[i][1] = rs.getString("state");
+			data[i][2] = rs.getString("city");
+			data[i][3] = rs.getString("street");
+			i++;
+		}
+		
+		return data;
+		
 	}
 }
