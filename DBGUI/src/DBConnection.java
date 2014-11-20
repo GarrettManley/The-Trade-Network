@@ -34,7 +34,8 @@ public class DBConnection {
 		// CONN STRING FOR LAPTOP DB
 		// String db_connect_string =
 		// "jdbc:sqlserver://192.168.254.35\\SQLEXPRESS;user=sa;password=password0987654321;databaseName=TheTradeNetwork;";
-		String db_connect_string = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;user=marcus;password=password;databaseName=TheTradeNetwork;";
+		//String db_connect_string = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;user=marcus;password=password;databaseName=TheTradeNetwork;";
+		String db_connect_string = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;user=marcus;password=password;databaseName=TheTradeNetworkTest;";
 		con = DriverManager.getConnection(db_connect_string);
 
 	}
@@ -103,7 +104,7 @@ public class DBConnection {
 		pstmt.setInt(1, item_id);
 		pstmt.executeUpdate();
 
-		SQL = "insert into tradehistory values(?, null)";
+		SQL = "insert into tradehistory values(?, null, null)";
 		pstmt = this.con.prepareStatement(SQL);
 		pstmt.setInt(1, item_id);
 		pstmt.executeUpdate();

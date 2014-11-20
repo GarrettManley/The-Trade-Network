@@ -27,8 +27,8 @@ public class ProjectTableModel extends AbstractTableModel {
 		return columnNames.length;
 	}
 
-	@Override
 	public int getRowCount() {
+		//return 0; //do this if u need to look at windowbuilder
 		return data.length;
 	}
 
@@ -36,7 +36,7 @@ public class ProjectTableModel extends AbstractTableModel {
 		return columnNames[column];
 	}
 
-	@Override
+	
 	public Object getValueAt(int row, int col) {
 		return data[row][col];
 	}
@@ -56,6 +56,7 @@ public class ProjectTableModel extends AbstractTableModel {
 		data[row][col] = value;
 		fireTableDataChanged();
 	}
+
 
 	/*
 	 * JTable uses this method to determine the default renderer/ editor for

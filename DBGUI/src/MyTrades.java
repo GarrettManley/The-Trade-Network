@@ -19,6 +19,7 @@ public class MyTrades extends JPanel implements StringConstants {
 	private JTable offers_table;
 	private JButton btn_addItem;
 	private JButton btn_refresh;
+	private JButton btnAcceptOffer;
 	private TheMainPanel mainpanel;
 	private ProjectTableModel model1;
 	private ProjectTableModel model2;
@@ -26,7 +27,7 @@ public class MyTrades extends JPanel implements StringConstants {
 	private JTabbedPane tabbedPane;
 	private JButton btn_search;
 	private JButton btn_removeItem;
-	private JButton btn_myOffers;
+	private JButton btn_acceptedOffers;
 	private DBConnection db;
 
 	/**
@@ -58,17 +59,18 @@ public class MyTrades extends JPanel implements StringConstants {
 		btn_removeItem.addActionListener(new ButtonListener());
 
 		btn_search = new JButton("Search");
-		btn_search.setBounds(32, 257, 127, 47);
+		btn_search.setBounds(32, 251, 127, 47);
+		
 		add(btn_search);
 		btn_search.addActionListener(new ButtonListener());
 
-		btn_myOffers = new JButton("Look at Offers");
-		btn_myOffers.setBounds(32, 341, 127, 47);
-		add(btn_myOffers);
-		btn_myOffers.addActionListener(new ButtonListener());
+		btn_acceptedOffers = new JButton("AcceptedOffers");
+		btn_acceptedOffers.setBounds(32, 331, 127, 47);
+		add(btn_acceptedOffers);
+		btn_acceptedOffers.addActionListener(new ButtonListener());
 
 		btn_refresh = new JButton("Refresh Page");
-		btn_refresh.setBounds(32, 421, 127, 47);
+		btn_refresh.setBounds(32, 495, 127, 47);
 		add(btn_refresh);
 		btn_refresh.addActionListener(new ButtonListener());
 
@@ -76,6 +78,11 @@ public class MyTrades extends JPanel implements StringConstants {
 		lblMyTrades.setFont(new Font("Tahoma", Font.PLAIN, 27));
 		lblMyTrades.setBounds(297, 36, 203, 33);
 		add(lblMyTrades);
+		
+		btnAcceptOffer = new JButton("Accept Offer");
+		btnAcceptOffer.setBounds(32, 413, 127, 47);
+		add(btnAcceptOffer);
+		btnAcceptOffer.addActionListener(new ButtonListener());
 
 	}
 
@@ -151,8 +158,36 @@ public class MyTrades extends JPanel implements StringConstants {
 				cl.show(mainpanel, SEARCH);
 			}
 			// if user presses myoffers button
-			else if (e.getSource() == btn_myOffers) {
-
+			else if (e.getSource() == btn_acceptedOffers) {
+				/*
+				 * 
+				 * CREATE ACCEPTED OFFERS PANEL HERE
+				 * 
+				 */
+			}
+			//if user presses accept offer button
+			else if(e.getSource() == btnAcceptOffer){
+				//if in tradetable tab
+				if (tabbedPane.getSelectedIndex() == 2) {
+					//get data to be removed
+					String[] rowData = model3.getValuesAt(offers_table.getSelectedRow());
+					
+					if(JOptionPane.showConfirmDialog(mainpanel, "Are you sure you want to\nAccept this Offer?: " + rowData[2] + " for " + rowData[0]) == JOptionPane.YES_OPTION){
+						try {
+							//remove and refresh page
+							//db.removeItem(rowData);
+							refresh_page();
+							
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					
+				}
+				else{
+					JOptionPane.showMessageDialog(mainpanel, "You have to select an item from offers tab to accept offer!");
+				}
 			}
 			// if user presses refresh button
 			else if (e.getSource() == btn_refresh) {

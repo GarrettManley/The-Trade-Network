@@ -1,3 +1,7 @@
+drop database thetradenetworktest;
+go
+create database TheTradeNetworkTest;
+go
 use TheTradeNetworkTest;
 
 CREATE TABLE category
@@ -27,7 +31,7 @@ CREATE TABLE item
 	categoryID			INT				NULL
 		REFERENCES category(categoryID) ON DELETE SET NULL
 										ON UPDATE NO ACTION,
-	username			VARCHAR(50)		NOT NULL
+	traderA			VARCHAR(50)		NOT NULL
 		REFERENCES person(username)		ON DELETE CASCADE
 										ON UPDATE NO ACTION
 )
@@ -40,14 +44,17 @@ CREATE TABLE offer
 	acceptedYN			CHAR			NOT NULL		DEFAULT  'N',
 	item_id				INT				NOT NULL
 		REFERENCES item(item_id) ON DELETE CASCADE
-								 ON UPDATE NO ACTION
+								 ON UPDATE NO ACTION,
+	traderB				VARCHAR(50)		NOT NULL
+		REFERENCES person(username)		ON DELETE NO ACTION
+										ON UPDATE NO ACTION
 )
 go
 
 CREATE TABLE tradehistory
 (
 	item_id				INT				NOT NULL
-		REFERENCES item(item_id) ON DELETE CASCADE
+		REFERENCES item(item_id) ON DELETE NO ACTION
 								 ON UPDATE NO ACTION,
 	offer_id			INT				NULL
 		REFERENCES offer(offer_id)	ON DELETE NO ACTION
@@ -63,12 +70,17 @@ CREATE TABLE tradetable
 		REFERENCES item(item_id) ON DELETE CASCADE
 								 ON UPDATE NO ACTION,
 	offer_id			INT				NULL
-		REFERENCES offer(offer_id)	ON DELETE SET NULL
+		REFERENCES offer(offer_id)	ON DELETE NO ACTION
 									ON UPDATE NO ACTION,
 	offerYN				CHAR			NOT NULL		DEFAULT		'N'
 	
 )
 go
 
+--Insert category values--
 insert into category(categoryname)
 values('Cars'), ('Electronics'),('Books'),('Video Games'), ('Furniture'),('Toys'),('Misc');
+
+--Insert two test users--
+insert into person
+values('Tester','tester','11111','Alabama','7708897788','test','test st'),('TesterBob','tester','11111','Alabama','7706677744','testcity','test blvd')
