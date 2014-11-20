@@ -3,9 +3,15 @@ import javax.swing.table.AbstractTableModel;
 public class ProjectTableModel extends AbstractTableModel {
 
 	String[] columnNames = { "" };
-	Object[][] data = { { "" } };
+	Object[][] data = {
+			{"bob","spoon","its a spoon","N"},
+			{"steve","knife","a KNOIF","Y"}};
 
 	public ProjectTableModel() {
+	}
+	
+	public ProjectTableModel(String[] cnames){
+		this.columnNames = cnames;
 	}
 
 	public ProjectTableModel(String[] cNames, Object[][] data) {
